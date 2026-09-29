@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>I'm sorry</title>
+<style>
+:root{--bg:#e9ecf1;--bg2:#cfd6e0;--ink:#2b3140;--soft:#66708a;--accent:#7b5a78;--drop:rgba(70,90,130,.35);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1119;--bg2:#1a2131;--ink:#e6e9f0;--soft:#8e98b0;--accent:#c39bbd;--drop:rgba(150,175,220,.35)}}
+:root[data-theme="dark"]{--bg:#0d1119;--bg2:#1a2131;--ink:#e6e9f0;--soft:#8e98b0;--accent:#c39bbd;--drop:rgba(150,175,220,.35)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed;color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.9;min-height:100vh}
+#rain{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.d{position:absolute;top:-40px;width:1px;height:26px;background:linear-gradient(transparent,var(--drop));animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(115vh)}}
+section{position:relative;z-index:1;min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 24px;max-width:600px;margin:0 auto}
+h1{font-size:clamp(2.2rem,8vw,3.4rem);font-weight:normal;letter-spacing:.04em;margin:0 0 14px}
+p{font-size:clamp(1.05rem,3.8vw,1.25rem);margin:0 0 1.3em}
+.small{color:var(--soft);font-size:.95rem;font-style:italic}
+.mark{color:var(--accent);font-size:2.2rem;opacity:.8;animation:fade 4s ease-in-out infinite}
+@keyframes fade{0%,100%{opacity:.35}50%{opacity:.9}}
+.hint{position:absolute;bottom:24px;left:0;right:0;text-align:center;color:var(--soft);font-size:.9rem;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.hero{min-height:100vh}
+.r{opacity:0;transform:translateY(16px);transition:opacity 1.6s ease,transform 1.6s ease}
+.r.in{opacity:1;transform:none}
+em{color:var(--accent);font-style:italic}
+button{font:inherit;background:none;color:var(--soft);border:1px solid var(--soft);border-radius:999px;padding:10px 26px;cursor:pointer;margin-top:14px}
+@media (prefers-reduced-motion:reduce){.r{opacity:1;transform:none;transition:none}.mark,.hint{animation:none}#rain{display:none}}
+</style>
+</head>
+<body>
+<div id="rain"></div>
+
+<section class="hero">
+  <div class="mark">♡</div>
+  <h1 id="title">I'm sorry</h1>
+  <p class="small">For a silence that lasted far too long.</p>
+  <div class="hint">scroll ↓</div>
+</section>
+
+<section>
+  <p class="r">A year ago, I blocked you.</p>
+  <p class="r">You had done nothing to deserve it. I was overwhelmed and afraid of falling behind, and I let that pressure turn me into someone who pushed away a friend without a word.</p>
+  <p class="r">I've felt the weight of that many times since. I can't take it back. I wish I could.</p>
+</section>
+
+<section>
+  <p class="r">It was <em>my</em> mistake. No pressure could justify it, and I'm truly sorry for the hurt I caused, and for the quiet I left behind.</p>
+  <p class="r">I've missed having you in my life.</p>
+</section>
+
+<section>
+  <p class="r"><em>If you can ever find it in your heart to forgive me, I would be grateful.</em></p>
+  <p class="r">And if you can't, I understand. You owe me nothing. I only wanted you to know that I'm sorry.</p>
+  <p class="r small">— <span>Aman</span></p>
+  <button id="again">Read again</button>
+</section>
+
+<script>
+(function(){
+  try{
+    var to=new URLSearchParams(location.search).get('to');
+    if(to){document.getElementById('title').textContent="I'm sorry, "+to.slice(0,40);document.title='For '+to.slice(0,40)}
+  }catch(e){}
+  var rain=document.getElementById('rain');
+  for(var i=0;i<28;i++){
+    var d=document.createElement('div');d.className='d';
+    d.style.left=(Math.random()*100)+'%';
+    d.style.animationDuration=(4+Math.random()*5)+'s';
+    d.style.animationDelay=(-Math.random()*8)+'s';
+    d.style.opacity=.4+Math.random()*.6;
+    rain.appendChild(d);
+  }
+  var els=document.querySelectorAll('.r');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.3});
+    els.forEach(function(e,i){e.style.transitionDelay=(i%3)*0.3+'s';io.observe(e)});
+  }else{els.forEach(function(e){e.classList.add('in')})}
+  document.getElementById('again').onclick=function(){window.scrollTo({top:0,behavior:'smooth'})};
+})();
+</script>
+</body>
+</html>
